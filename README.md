@@ -1,6 +1,6 @@
 # AutoExpert Backend
 
-A small Node.js backend built with Express and TypeScript. The current server responds to `GET /` with `Hello from /` and listens on port `3000`.
+A small Node.js backend built with Express and TypeScript. The server responds to `GET /` with `Hello from /` and exposes a versioned health check at `GET /api/v1/health`, which returns `{ "status": "ok" }`. It listens on port `3000` by default; set `PORT` to choose another port.
 
 ## Requirements
 
@@ -35,7 +35,7 @@ pnpm build
 pnpm start
 ```
 
-The server listens on port `3000`. There are currently no environment variables or external services to configure.
+The server listens on port `3000` by default; set `PORT` to use another port. No external services are required.
 
 ## Run with Docker
 

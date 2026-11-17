@@ -1,5 +1,5 @@
 import express from "express";
-import { healthRouter } from "./router/health.router";
+import { apiRouter } from "./router/api.router";
 
 export function createApp() {
   const app = express();
@@ -8,7 +8,7 @@ export function createApp() {
     res.send(`Hello from ${req.url}`);
   });
 
-  app.use("/health", healthRouter);
+  app.use("/api", apiRouter);
 
   return app;
 }
