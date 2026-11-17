@@ -1,10 +1,33 @@
-import express from "express";
+import { Server } from "node:http";
+import { createApp } from "./app";
+import { env } from "./config/env";
+import { logger } from "./lib/logger";
 
-const app = express();
 
-app.get("/", (req, res) => {
-  const requestUrl = req.url;
-  res.send(`Hello from ${requestUrl}`);
-});
+async function handleShutdown(signal: string, server: Server) {
+  logger.info(`Received ${signal}. Graceful shutdown starting...`);
 
-app.listen(3000, () => console.log("Listening on 3000"));
+  server.close(async () => {
+    logger.info("HTTP Server stopped accepting new requests.");
+
+    process.exit(0);
+  });
+}
+
+async function serverStartUp(): Promise<void> {
+  try {
+    const app = createApp();
+
+    const server = app.listen(env.port, () => {
+      logger.info(`Server is now running on PORT http://localhost:${env.port}`);
+    });
+
+    process.on("SIGINT", () => handleShutdown("SIGINT", server));
+    process.on("SIGTERM", () => handleShutdown("SIGTERM", server));
+  } catch (error) {
+    logger.error({ err: error }, "Failed to start the application server");
+    process.exit(1);
+  }
+}
+
+serverStartUp();
