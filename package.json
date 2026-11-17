@@ -11,7 +11,7 @@
     "start": "node dist/server.js",
     "dev": "tsx watch src/server.ts",
     "docker:build": "docker build -t autoexpert-backend .",
-    "docker:run": "docker run -p 3000:3000 autoexpert-backend"
+    "docker:run": "docker run --env-file .env -e NODE_ENV=production -p 3000:3000 autoexpert-backend"
   },
   "keywords": [],
   "author": "",
