@@ -5,15 +5,15 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  production-test:
     uses: ./.github/workflows/ci.yml
 
   deploy:
-    needs: test
+    needs: production-test
     runs-on: ubuntu-latest
     environment: production
     permissions:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
