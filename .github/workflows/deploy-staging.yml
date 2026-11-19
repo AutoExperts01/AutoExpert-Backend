@@ -1,0 +1,23 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches: [staging]
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  staging-test:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    needs: staging-test
+    runs-on: ubuntu-latest
+    environment: staging
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7

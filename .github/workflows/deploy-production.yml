@@ -1,0 +1,19 @@
+name: Deploy Production
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  production-test:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    needs: production-test
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
