@@ -1,6 +1,7 @@
 import express from "express";
-import { apiRouter } from "./routers/api.router";
+import { apiRouter } from "./routers";
 import { notFound } from "./middlewares/not-found";
+import { errorHandler } from "./middlewares/error-handler";
 
 export function createApp() {
   const app = express();
@@ -11,6 +12,7 @@ export function createApp() {
 
   app.use("/api", apiRouter);
 
+  app.use(errorHandler);
   app.use(notFound);
 
   return app;

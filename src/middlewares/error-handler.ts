@@ -1,11 +1,26 @@
 import { NextFunction, Request, Response } from "express";
 import { logger } from "../lib/logger";
+import { AppError } from "../lib/app-error";
 
 export function errorHandler(
-  error: Error,
+  err: Error,
   _req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) {
-  logger.error({ error }, "unhandled error");
+  logger.error({ err }, "unhandled error");
+
+  if (err instanceof AppError) {
+    res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
+    });
+
+    return;
+  }
+
+  res.status(500).json({
+    success: false,
+    message: "Internal server error",
+  });
 }
