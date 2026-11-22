@@ -12,7 +12,7 @@ async function handleShutdown(signal: string, server: Server) {
 
     process.exit(0);
   });
-}
+};
 
 async function serverStartUp(): Promise<void> {
   try {
